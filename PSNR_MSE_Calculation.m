@@ -1,0 +1,21 @@
+clc;    
+close all;  
+clear; 
+workspace;
+format long g;
+format compact;
+fontSize = 20;
+grayImage = imread('Truck.bmp');
+[rows columns] = size(grayImage);
+subplot(2, 2, 1);
+imshow(grayImage, []);
+title('Original Gray Scale Image', 'FontSize', fontSize);
+set(gcf, 'Position', get(0,'Screensize'));
+noisyImage = imread('Stego_Truck.png');
+subplot(2, 2, 2);
+imshow(noisyImage, []);
+title('Noisy Image', 'FontSize', fontSize);
+squaredErrorImage = (double(grayImage) - double(noisyImage)) .^ 2;
+mse = sum(sum(squaredErrorImage)) / (rows * columns);
+PSNR = 10 * log10( 256^2 / mse);
+message = sprintf('The mean square error is %.2f.\nThe PSNR = %.2f', mse, PSNR)
